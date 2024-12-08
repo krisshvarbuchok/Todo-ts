@@ -1,0 +1,8 @@
+.buttonInTask{
+    border: none;
+    
+  }
+  .buttonInTask:hover{
+    border: none;
+    color: #9254de;
+  }
