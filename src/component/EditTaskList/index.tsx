@@ -4,14 +4,13 @@ import { SaveOutlined} from '@ant-design/icons';
 import styles from "./index.module.css"
 
 type PropsType = {
-    handleSave: (id: string | number, taskEdit: string) => void;
+    handleSave: (id: string | number) => void;
     id: string | number;
-    taskEdit: string;
 }
 
-export const EditTaskList: FC<PropsType> = ({handleSave, id, taskEdit }) => {
+export const EditTaskList: FC<PropsType> = ({handleSave, id }) => {
     return (
         <Button type="primary" className={styles.buttonInTask} ghost 
-        onClick={() => handleSave(id, taskEdit)}><SaveOutlined style={{ fontSize: '20px', color: 'white' }} /></Button>
+        onClick={() => handleSave(id)}><SaveOutlined style={{ fontSize: '20px', color: 'white' }} /></Button>
     )
 }

@@ -1,17 +1,18 @@
 import { Typography } from "antd";
 import { FC } from "react"
+import { useAppSelector } from "../../hooks/hooks";
 type PropsType = {
     id: string | number;
     task: string;
     handleClickDone:  (id: number | string)=> void;
-    doneTasks: (string | number)[];
 }
-export const DoneTaskList: FC<PropsType> = ({handleClickDone, id, task, doneTasks}) => {
+export const DoneTaskList: FC<PropsType> = ({handleClickDone, id, task}) => {
     const { Text } = Typography;
+    const done = useAppSelector(state => state.done.done)
 
     return (
         <p className='input-task' onClick={() => handleClickDone(id)}>
-            {doneTasks.includes(id) ? <Text delete>{task}</Text> : task}
+            {done.includes(id) ? <Text delete>{task}</Text> : task}
         </p>
     )
 }

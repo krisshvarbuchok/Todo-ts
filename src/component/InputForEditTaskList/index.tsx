@@ -1,15 +1,18 @@
 import { Input, InputRef } from "antd";
 import { useEffect, forwardRef, MutableRefObject } from "react";
+import { useAppSelector } from "../../hooks/hooks";
+import { editTask } from "../../redux/actions/editTaskAction";
+import { useDispatch } from "react-redux";
 
 type PropsType = {
-    taskEdit: string;
-    setTaskEdit: (arg: string) => void;
-    handleSave: (id: string | number, taskEdit: string) => void;
+    handleSave: (id: string | number) => void;
     id: number | string;
 };
 
 export const InputForEditTaskList = forwardRef<InputRef, PropsType>(
-    ({ setTaskEdit, handleSave, id, taskEdit }, ref) => {
+    ({ handleSave, id }, ref) => {
+        const taskEdit = useAppSelector(state => state.taskEdit.taskEdit);
+        const dispatch = useDispatch();
         useEffect(() => {
             if ((ref as MutableRefObject<InputRef | null>).current) {
                 (ref as MutableRefObject<InputRef | null>).current?.focus();
@@ -20,8 +23,8 @@ export const InputForEditTaskList = forwardRef<InputRef, PropsType>(
             <Input
                 ref={ref}
                 value={taskEdit}
-                onChange={(e) => setTaskEdit(e.target.value)}
-                onPressEnter={() => handleSave(id, taskEdit)}
+                onChange={(e) => dispatch(editTask(e.target.value))}
+                onPressEnter={() => handleSave(id)}
             />
         );
     }

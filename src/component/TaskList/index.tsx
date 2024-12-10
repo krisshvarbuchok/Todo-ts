@@ -1,5 +1,4 @@
-import { FC, useRef, useState } from "react";
-import { List } from "../../pages/MainPage";
+import { FC, useRef } from "react";
 import { DeleteTaskList } from "../DeleteTaskList";
 import { DoneTaskList } from "../DoneTaskList";
 import styles from "./index.module.css"
@@ -7,40 +6,42 @@ import { InputForEditTaskList } from "../InputForEditTaskList";
 import { EditTaskList } from "../EditTaskList";
 import { WillEditTaskList } from "../WillEditTaskList";
 import { InputRef } from "antd";
+import { useAppSelector } from "../../hooks/hooks";
+import { useDispatch } from "react-redux";
+import { deleteTask } from "../../redux/actions/deleteAction";
+import { doneTask } from "../../redux/actions/doneAction";
+import { editIdTask } from "../../redux/actions/editIdAction";
+import { editTask } from "../../redux/actions/editTaskAction";
+import { addEditedTask } from "../../redux/actions/addEditAction";
 
-type PropsType = {
-    list: List[];
-    setList: (callback: (prev: List[]) => List[]) => void;
-    newTask: string;
-}
-export const TaskList: FC<PropsType> = ({ list, setList }) => {
-
+export const TaskList: FC = () => {
+    
+    const list = useAppSelector(state => state.list.list);
+    const editId = useAppSelector(state => state.editId.editId);
+    const taskEdit = useAppSelector(state => state.taskEdit.taskEdit);
+    const dispatch = useDispatch();
     const ref = useRef<InputRef>(null);
-    const [doneTasks, setDoneTasks] = useState<(string | number)[]>([]);
-    const [idEdit, setIdEdit] = useState<string | number | null>(null);
-    const [taskEdit, setTaskEdit] = useState<string>('');
-
-    const handleSave = (id: string | number, taskEdit: string) => {
+    
+    
+    const handleSave = (id: string | number) => {
         if(taskEdit.trim() !== ''){
-            setList(prev =>
-                prev.map(item => item.id === id ? { ...item, task: taskEdit } : item)
-            );
-            setIdEdit(null);
-            setTaskEdit('');
+            dispatch(addEditedTask(id, taskEdit))
+            dispatch(editIdTask(''));
+            dispatch(editTask(''))
+            
         }
     }
     const handleEdit = (id: string | number, task: string): void => {
-        setIdEdit(id);
-        setTaskEdit(task);
-        //textInput.current?.focus();
+        dispatch(editIdTask(id));
+        dispatch(editTask(task));
     }
 
     const handleClickDone = (id: string | number): void => {
-        setDoneTasks(prevState => prevState.includes(id) ? prevState.filter(item => item !== id) : [...prevState, id]);
+        dispatch(doneTask(id));
     }
 
     const handleClickDelete = (id: string | number): void => {
-        setList(prev => prev.filter(task => task.id !== id));
+        dispatch(deleteTask(id));
     }
     return (
         <ul>
@@ -49,17 +50,17 @@ export const TaskList: FC<PropsType> = ({ list, setList }) => {
                 return (<li key={item.id} className={styles.task}>
 
                     <div className={styles.inputTask}>
-                        {idEdit === item.id ?
+                        {editId === item.id ?
                             <InputForEditTaskList
                                 ref={ref} 
-                                taskEdit={taskEdit} setTaskEdit={setTaskEdit} handleSave={handleSave} id={item.id} /> :
+                                handleSave={handleSave} id={item.id} /> :
 
-                            <DoneTaskList handleClickDone={handleClickDone} doneTasks={doneTasks} id={item.id} task={item.task} />
+                            <DoneTaskList handleClickDone={handleClickDone} id={item.id} task={item.task} />
                         }
                     </div>
                     <div className={styles.buttonTask}>
-                        {idEdit === item.id ?
-                            <EditTaskList handleSave={handleSave} id={item.id} taskEdit={taskEdit}/> :
+                        {editId === item.id ?
+                            <EditTaskList handleSave={handleSave} id={item.id}/> :
                             <WillEditTaskList handleEdit={handleEdit} id={item.id} task={item.task} />
                         }
 
