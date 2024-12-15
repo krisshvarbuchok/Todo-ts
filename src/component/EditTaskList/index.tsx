@@ -4,8 +4,8 @@ import { SaveOutlined} from '@ant-design/icons';
 import styles from "./index.module.css"
 
 type PropsType = {
-    handleSave: (id: string | number) => void;
-    id: string | number;
+    handleSave: (id: string) => void;
+    id: string;
 }
 
 export const EditTaskList: FC<PropsType> = ({handleSave, id }) => {

@@ -17,3 +17,28 @@ li{
   justify-content: space-between;
   align-items: center;
 }
+/* .container{
+  width: 1080px;
+} */
+table.redevTable {
+  width: 100%;
+  max-width: 1280px; /* Сохранение пропорций родительского контейнера */
+  table-layout: fixed; /* Фиксированная ширина колонок */
+}
+
+
+table.redevTable,table.redevTable td, table.redevTable th {
+  border: 1px solid #595959;
+}
+table.redevTable td,table.redevTable th {
+  padding: 3px;
+  width: 30px;
+  height: 35px;
+  word-wrap: break-word; /* Перенос текста */
+  word-break: break-word;
+}
+table.redevTable th {
+  background: #347c99;
+  color: #fff;
+  font-weight: normal;
+}

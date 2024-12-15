@@ -4,8 +4,8 @@ import { EditOutlined } from '@ant-design/icons';
 import styles from "./index.module.css"
 
 type PropsType = {
-    handleEdit: (id: string | number, task: string) => void;
-    id: string | number;
+    handleEdit: (id: string, task: string) => void;
+    id: string;
     task: string;
 }
 

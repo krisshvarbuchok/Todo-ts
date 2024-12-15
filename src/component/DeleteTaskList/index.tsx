@@ -3,8 +3,8 @@ import { FC } from "react";
 import { DeleteOutlined } from '@ant-design/icons';
 
 type PropsType = {
-    id: string | number;
-    handleClickDelete: (id: string | number) => void;
+    id: string;
+    handleClickDelete: (id: string) => void;
 }
 export const DeleteTaskList: FC<PropsType> = ({ handleClickDelete, id }) => {
 
